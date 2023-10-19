@@ -25,7 +25,9 @@ PROJECT_ROOT = BASE_DIR
 SECRET_KEY = 'ABC1234' #TODO Changeme
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+
 
 # Application definition
 
@@ -169,7 +171,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.vercel.app']
 
 # Import local_settings.py
 try:

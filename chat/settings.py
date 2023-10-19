@@ -171,7 +171,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['']
 
 # Import local_settings.py
 try:

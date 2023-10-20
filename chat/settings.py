@@ -12,24 +12,26 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
+
+  Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from os.path import join
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = BASE_DIR
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
+  Quick-start development settings - unsuitable for production
+  See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ABC1234' #TODO Changeme
+  SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+  SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 
 
-# Application definition
+  Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,10 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Apps
+      Apps
     'core',
 
-    # 3rd party
+      3rd party
     'rest_framework',
     'channels',
 ]
@@ -77,8 +79,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'chat.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
+  Database
+  https://docs.djangoproject.com/en/dev/ref/settings/ databases
 
 DATABASES = {
     'default': {
@@ -90,31 +92,34 @@ DATABASES = {
         }
     }
 }
+database_url =os.environ.get("DATABSE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
-# Password validation
-# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
+ postgres://myfirst_1njz_user:j4oYI90eOUhgQLdhIWg1SInqAsyZdzwR@dpg-ckoopmtjoits739ftleg-a.oregon-postgres.render.com/myfirst_1njz
+  Password validation
+  https://docs.djangoproject.com/en/dev/ref/settings/ auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = []
 
-# {
-#     'NAME':
-#  'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-# },
-# {
-#     'NAME':
-# 'django.contrib.auth.password_validation.MinimumLengthValidator',
-# },
-# {
-#     'NAME':
-# 'django.contrib.auth.password_validation.CommonPasswordValidator',
-# },
-# {
-#     'NAME':
-# 'django.contrib.auth.password_validation.NumericPasswordValidator',
-# },
+  {
+      'NAME':
+   'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+  },
+  {
+      'NAME':
+  'django.contrib.auth.password_validation.MinimumLengthValidator',
+  },
+  {
+      'NAME':
+  'django.contrib.auth.password_validation.CommonPasswordValidator',
+  },
+  {
+      'NAME':
+  'django.contrib.auth.password_validation.NumericPasswordValidator',
+  },
 
-# Internationalization
-# https://docs.djangoproject.com/en/dev/topics/i18n/
+  Internationalization
+  https://docs.djangoproject.com/en/dev/topics/i18n/
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -127,18 +132,18 @@ REST_FRAMEWORK = {
 
 MESSAGES_TO_LOAD = 15
 
-# In settings.py
+  In settings.py
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "core.routing.channel_routing",
     },
 }
-# Could be changed to the config below to scale:
-# "BACKEND": "asgi_redis.RedisChannelLayer",
-# "CONFIG": {
-#     "hosts": [("localhost", 6379)],
-# },
+  Could be changed to the config below to scale:
+  "BACKEND": "asgi_redis.RedisChannelLayer",
+  "CONFIG": {
+      "hosts": [("localhost", 6379)],
+  },
 
 LANGUAGE_CODE = 'en-us'
 
@@ -150,17 +155,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/dev/howto/static-files/
+  Static files (CSS, JavaScript, Images)
+  https://docs.djangoproject.com/en/dev/howto/static-files/
 
-# Collect static files here
+  Collect static files here
 STATIC_ROOT = join(PROJECT_ROOT, 'run', 'static_root')
 
-# Collect media files here
+  Collect media files here
 MEDIA_ROOT = join(PROJECT_ROOT, 'run', 'media_root')
 MEDIA_URL = '/media/'
 
-# look for static assets here
+  look for static assets here
 STATICFILES_DIRS = [
     join(PROJECT_ROOT, 'static'),
 ]
@@ -171,9 +176,9 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").SPLIT(" ")
 
-# Import local_settings.py
+  Import local_settings.py
 try:
     from local_settings import *
 except ImportError:
@@ -184,7 +189,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('*', 6379)],
         },
     },
 }

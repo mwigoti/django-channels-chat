@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 import os
 
+import sys
+sys.path.append('/django-channels-chat/chat')
+sys.path.append('/django-channels-chat/core')
+
+
 import dj_database_url
 
   Build paths inside the project like this: os.path.join(BASE_DIR, ...)
